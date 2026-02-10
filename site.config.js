@@ -28,9 +28,11 @@ export const siteConfig = {
     design: {
         palette: "trust", // trust | vibrant | luxury | healthcare | creative | dark
         style: "linear", // linear | glassmorphism | aurora | bento | minimal
+        layout: "centered", // centered | editorial | minimal
         fontHeading: "Inter",
         fontBody: "Inter",
         fontWeights: "300;400;500;600;700;800",
+        borderRadius: "16px",
     },
 
     /* ─────────────────── GLOBAL LINKS ─────────────────── */

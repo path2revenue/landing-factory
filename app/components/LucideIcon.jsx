@@ -1,0 +1,70 @@
+"use client";
+
+import {
+    Compass, Shield, Zap, Search, Calendar, PenTool, Bot,
+    Building, Moon, TrendingDown, Target, Lock, Lightbulb,
+    CheckCircle, Handshake, TrendingUp, Clock,
+    Brain, Unlock, Rocket, Users, BarChart2, Heart,
+    Star, Award, ArrowRight, MessageCircle, Globe,
+    Layers, Settings, Eye, BookOpen, Megaphone,
+    DollarSign, Briefcase, UserCheck, PhoneCall,
+    Mail, MapPin, Share2, Video, Mic, FileText,
+    PieChart, Activity, Cpu, Code, Database,
+} from "lucide-react";
+
+const iconMap = {
+    compass: Compass,
+    shield: Shield,
+    zap: Zap,
+    search: Search,
+    calendar: Calendar,
+    "pen-tool": PenTool,
+    bot: Bot,
+    building: Building,
+    moon: Moon,
+    "trending-down": TrendingDown,
+    target: Target,
+    lock: Lock,
+    lightbulb: Lightbulb,
+    "check-circle": CheckCircle,
+    handshake: Handshake,
+    "trending-up": TrendingUp,
+    clock: Clock,
+    brain: Brain,
+    unlock: Unlock,
+    rocket: Rocket,
+    users: Users,
+    "bar-chart-2": BarChart2,
+    heart: Heart,
+    star: Star,
+    award: Award,
+    "arrow-right": ArrowRight,
+    "message-circle": MessageCircle,
+    globe: Globe,
+    layers: Layers,
+    settings: Settings,
+    eye: Eye,
+    "book-open": BookOpen,
+    megaphone: Megaphone,
+    "dollar-sign": DollarSign,
+    briefcase: Briefcase,
+    "user-check": UserCheck,
+    "phone-call": PhoneCall,
+    mail: Mail,
+    "map-pin": MapPin,
+    "share-2": Share2,
+    video: Video,
+    mic: Mic,
+    "file-text": FileText,
+    "pie-chart": PieChart,
+    activity: Activity,
+    cpu: Cpu,
+    code: Code,
+    database: Database,
+};
+
+export default function LucideIcon({ name, size = 24, className = "" }) {
+    const Icon = iconMap[name];
+    if (!Icon) return null;
+    return <Icon size={size} className={className} strokeWidth={1.5} />;
+}

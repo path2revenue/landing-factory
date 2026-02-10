@@ -3,6 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import { siteConfig } from "@/site.config";
 
+const layout = siteConfig.design?.layout || "centered";
+const btnRadius = layout === "editorial" ? "rounded-xl" : layout === "minimal" ? "rounded-lg" : "rounded-full";
+
 function resolveHref(href) {
     return href === "__whatsapp__" ? siteConfig.links.whatsapp : href;
 }
@@ -50,8 +53,8 @@ export default function FinalCTA() {
                             rel={cta.href === "__whatsapp__" ? "noopener noreferrer" : undefined}
                             className={
                                 cta.style === "primary"
-                                    ? "group px-8 py-4 bg-[var(--color-cta)] text-[var(--color-bg-primary)] font-bold rounded-xl text-lg hover:bg-[var(--color-cta-hover)] hover:-translate-y-1 transition-all duration-300 shadow-[0_0_0_0_var(--color-cta-glow)] hover:shadow-[0_8px_30px_var(--color-cta-glow)] animate-[pulseGlow_3s_ease-in-out_infinite]"
-                                    : "px-8 py-4 border border-[var(--color-border-hover)] text-[var(--color-text-secondary)] rounded-xl text-lg hover:border-[var(--color-accent-light)] hover:text-white transition-all duration-300"
+                                    ? `group px-8 py-4 bg-[var(--color-cta)] text-[var(--color-bg-primary)] font-bold ${btnRadius} text-lg hover:bg-[var(--color-cta-hover)] hover:-translate-y-1 transition-all duration-300 shadow-[0_0_0_0_var(--color-cta-glow)] hover:shadow-[0_8px_30px_var(--color-cta-glow)] animate-[pulseGlow_3s_ease-in-out_infinite]`
+                                    : `px-8 py-4 border border-[var(--color-border-hover)] text-[var(--color-text-secondary)] ${btnRadius} text-lg hover:border-[var(--color-accent-light)] hover:text-white transition-all duration-300`
                             }
                         >
                             {cta.icon === "whatsapp" && <WhatsAppIcon />}

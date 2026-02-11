@@ -33,64 +33,64 @@ export default function Calendar() {
 
     return (
         <section id="rdv" ref={ref} className="py-24 px-6 bg-[var(--color-bg-surface)]/20">
-            <div className={`max-w-[1200px] mx-auto transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-                <div className="text-center mb-12">
+            <div className={`max-w-[1100px] mx-auto transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+                {/* Header */}
+                <div className="text-center mb-10">
                     <span className="text-xs uppercase tracking-[0.2em] text-[var(--color-accent)] font-semibold">{data.eyebrow}</span>
                     <h2 className="text-3xl md:text-5xl font-bold mt-3 mb-4">
                         {data.headline}{" "}
                         <span className="bg-gradient-to-r from-[var(--color-gradient-from)] to-[var(--color-gradient-to)] bg-clip-text text-transparent">{data.highlightedText}</span>
                     </h2>
-                    <p className="text-[var(--color-text-secondary)] max-w-[600px] mx-auto">{data.subtitle}</p>
                 </div>
 
-                <div className="grid md:grid-cols-5 gap-8">
-                    {/* Left — Benefits */}
-                    <div className="md:col-span-2 space-y-6">
-                        <div className="space-y-4">
-                            {data.benefits.map((b, i) => (
-                                <div key={i} className="flex items-start gap-3">
-                                    <span className="w-6 h-6 rounded-full bg-[var(--color-accent)]/10 text-[var(--color-accent)] flex items-center justify-center text-xs shrink-0 mt-0.5">✓</span>
-                                    <span className="text-sm text-[var(--color-text-secondary)]">{b}</span>
-                                </div>
-                            ))}
-                        </div>
+                {/* Full-width Booking Embed */}
+                <div className="bg-[var(--color-bg-surface)] border border-[var(--color-border-default)] rounded-2xl p-2 overflow-hidden">
+                    {links.bookingEmbedType === "ghl" ? (
+                        <iframe
+                            src={links.bookingEmbed}
+                            style={{ width: "100%", border: "none", overflow: "hidden", minHeight: "700px" }}
+                            scrolling="no"
+                            title="Booking calendar"
+                        />
+                    ) : links.bookingEmbedType === "calendly" ? (
+                        <iframe
+                            src={links.bookingEmbed}
+                            style={{ width: "100%", border: "none", minHeight: "700px" }}
+                            title="Booking calendar"
+                        />
+                    ) : (
+                        <iframe
+                            src={links.bookingEmbed}
+                            style={{ width: "100%", border: "none", minHeight: "700px" }}
+                            title="Booking calendar"
+                        />
+                    )}
+                </div>
 
-                        <div className="bg-[var(--color-bg-card)] border border-[var(--color-border-default)] rounded-xl p-5 mt-6">
-                            <p className="text-sm text-[var(--color-text-secondary)] mb-3">{data.whatsappCopy}</p>
-                            <a
-                                href={links.whatsapp}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center px-5 py-3 bg-[#25D366] text-white rounded-lg font-semibold text-sm hover:bg-[#22c55e] transition-colors"
-                            >
-                                <WhatsAppIcon />
-                                {data.whatsappLabel}
-                            </a>
-                        </div>
+                {/* Info below */}
+                <div className="mt-10 grid md:grid-cols-2 gap-6 items-start">
+                    {/* Benefits */}
+                    <div className="flex flex-wrap gap-x-6 gap-y-3">
+                        {data.benefits.map((b, i) => (
+                            <div key={i} className="flex items-center gap-2">
+                                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/10 text-[var(--color-accent)] flex items-center justify-center text-xs shrink-0">✓</span>
+                                <span className="text-sm text-[var(--color-text-secondary)]">{b}</span>
+                            </div>
+                        ))}
                     </div>
 
-                    {/* Right — Booking Embed */}
-                    <div className="md:col-span-3 bg-[var(--color-bg-surface)] border border-[var(--color-border-default)] rounded-2xl p-2 overflow-hidden min-h-[500px]">
-                        {links.bookingEmbedType === "ghl" ? (
-                            <iframe
-                                src={links.bookingEmbed}
-                                style={{ width: "100%", border: "none", overflow: "hidden", minHeight: "500px" }}
-                                scrolling="no"
-                                title="Booking calendar"
-                            />
-                        ) : links.bookingEmbedType === "calendly" ? (
-                            <iframe
-                                src={links.bookingEmbed}
-                                style={{ width: "100%", border: "none", minHeight: "600px" }}
-                                title="Booking calendar"
-                            />
-                        ) : (
-                            <iframe
-                                src={links.bookingEmbed}
-                                style={{ width: "100%", border: "none", minHeight: "500px" }}
-                                title="Booking calendar"
-                            />
-                        )}
+                    {/* WhatsApp */}
+                    <div className="flex items-center gap-4 justify-end">
+                        <p className="text-sm text-[var(--color-text-secondary)]">{data.whatsappCopy}</p>
+                        <a
+                            href={links.whatsapp}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center px-5 py-3 bg-[#25D366] text-white rounded-lg font-semibold text-sm hover:bg-[#22c55e] transition-colors whitespace-nowrap"
+                        >
+                            <WhatsAppIcon />
+                            {data.whatsappLabel}
+                        </a>
                     </div>
                 </div>
             </div>

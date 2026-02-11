@@ -7,7 +7,7 @@ import SectionHeader from "./SectionHeader";
 
 const layout = siteConfig.design?.layout || "centered";
 const cardRadius = layout === "editorial" ? "rounded-xl" : layout === "minimal" ? "rounded-lg" : "rounded-2xl";
-const gridCols = layout === "editorial" ? "md:grid-cols-2" : layout === "minimal" ? "md:grid-cols-2 lg:grid-cols-3" : "sm:grid-cols-2 lg:grid-cols-4";
+const gridCols = layout === "editorial" ? "md:grid-cols-2" : layout === "minimal" ? "md:grid-cols-2 lg:grid-cols-3" : "md:grid-cols-2 lg:grid-cols-3";
 const badgeRadius = layout === "editorial" ? "rounded-md" : "rounded-full";
 
 export default function Services() {
@@ -61,7 +61,7 @@ export default function Services() {
                                         <h3 className="text-base font-bold text-[var(--color-text-primary)] mb-1.5">{svc.title}</h3>
                                         <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">{svc.description}</p>
                                         {svc.badge && (
-                                            <span className={`inline-block mt-3 text-[10px] uppercase tracking-wider px-2 py-0.5 ${badgeRadius} bg-[var(--color-cta)]/10 border border-[var(--color-cta)]/20 text-[var(--color-cta)]`}>
+                                            <span className={`inline-block mt-3 text-[10px] uppercase tracking-wider px-2 py-0.5 ${badgeRadius} bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 text-[var(--color-accent)]`}>
                                                 {svc.badge}
                                             </span>
                                         )}
@@ -76,7 +76,7 @@ export default function Services() {
                                     <h3 className="text-sm font-bold text-[var(--color-text-primary)] mb-1">{svc.title}</h3>
                                     <p className="text-xs text-[var(--color-text-secondary)]">{svc.description}</p>
                                     {svc.badge && (
-                                        <span className={`inline-block mt-3 text-[10px] uppercase tracking-wider px-2 py-0.5 ${badgeRadius} bg-[var(--color-cta)]/10 border border-[var(--color-cta)]/20 text-[var(--color-cta)]`}>
+                                        <span className={`inline-block mt-3 text-[10px] uppercase tracking-wider px-2 py-0.5 ${badgeRadius} bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 text-[var(--color-accent)]`}>
                                             {svc.badge}
                                         </span>
                                     )}

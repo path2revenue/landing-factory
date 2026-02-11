@@ -61,8 +61,8 @@ function CTAButton({ cta }) {
             rel={cta.href === "__whatsapp__" ? "noopener noreferrer" : undefined}
             className={
                 cta.style === "primary"
-                    ? `group px-8 py-4 bg-[var(--color-cta)] text-white font-bold ${btnRadius} text-lg hover:bg-[var(--color-cta-hover)] transition-all duration-300 cursor-pointer`
-                    : `px-8 py-4 border border-[var(--color-border-hover)] text-[var(--color-text-secondary)] ${btnRadius} text-lg hover:border-[var(--color-accent)] hover:text-white transition-all duration-300 cursor-pointer`
+                    ? `group px-8 py-4 bg-[var(--color-cta)] text-[var(--color-bg-primary)] font-bold ${btnRadius} text-lg hover:bg-[var(--color-cta-hover)] transition-all duration-300 cursor-pointer`
+                    : `px-8 py-4 border border-[var(--color-border-hover)] text-[var(--color-text-secondary)] ${btnRadius} text-lg hover:border-[var(--color-accent)] hover:text-[var(--color-text-primary)] transition-all duration-300 cursor-pointer`
             }
         >
             {cta.icon === "whatsapp" && <WhatsAppIcon />}
@@ -77,7 +77,7 @@ function CTAButton({ cta }) {
    ═══════════════════════════════════════════ */
 function HeroCentered({ hero }) {
     return (
-        <section className="relative flex flex-col items-center justify-center overflow-hidden pt-12 pb-16">
+        <section className="relative flex flex-col items-center justify-center overflow-hidden pt-24 pb-16">
             <MeshBG />
             <div className="relative z-10 max-w-[1200px] mx-auto px-6 w-full flex flex-col items-center text-center">
                 <Eyebrow text={hero.eyebrow} />
@@ -103,7 +103,7 @@ function HeroCentered({ hero }) {
    ═══════════════════════════════════════════ */
 function HeroEditorial({ hero }) {
     return (
-        <section className="relative overflow-hidden pt-12 pb-16">
+        <section className="relative overflow-hidden pt-24 pb-16">
             <MeshBG />
             <div className="relative z-10 max-w-[1200px] mx-auto px-6 w-full">
                 <div className="grid md:grid-cols-2 gap-10 items-center mb-12">

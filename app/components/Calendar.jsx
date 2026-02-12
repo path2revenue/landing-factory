@@ -44,24 +44,26 @@ export default function Calendar() {
                 </div>
 
                 {/* Full-width Booking Embed */}
-                <div className="bg-[var(--color-bg-surface)] border border-[var(--color-border-default)] rounded-2xl p-2 overflow-hidden">
+                <div className="bg-[var(--color-bg-surface)] border border-[var(--color-border-default)] rounded-2xl p-2 overflow-visible">
                     {links.bookingEmbedType === "ghl" ? (
                         <iframe
                             src={links.bookingEmbed}
-                            style={{ width: "100%", border: "none", overflow: "hidden", minHeight: "700px" }}
-                            scrolling="no"
+                            className="w-full border-none min-h-[1000px] md:min-h-[700px]"
+                            scrolling="yes"
                             title="Booking calendar"
                         />
                     ) : links.bookingEmbedType === "calendly" ? (
                         <iframe
                             src={links.bookingEmbed}
-                            style={{ width: "100%", border: "none", minHeight: "700px" }}
+                            className="w-full border-none min-h-[1000px] md:min-h-[700px]"
+                            scrolling="yes"
                             title="Booking calendar"
                         />
                     ) : (
                         <iframe
                             src={links.bookingEmbed}
-                            style={{ width: "100%", border: "none", minHeight: "700px" }}
+                            className="w-full border-none min-h-[1000px] md:min-h-[700px]"
+                            scrolling="yes"
                             title="Booking calendar"
                         />
                     )}

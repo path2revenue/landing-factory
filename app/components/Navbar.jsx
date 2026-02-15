@@ -1,92 +1,121 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { siteConfig } from "@/site.config";
+import Image from "next/image";
 
-const layout = siteConfig.design?.layout || "centered";
-const btnRadius = layout === "editorial" ? "rounded-xl" : layout === "minimal" ? "rounded-lg" : "rounded-lg";
-
-export default function Navbar() {
-    const { navbar } = siteConfig;
+export default function Navbar({ config }) {
+    const { meta, links: globalLinks, navbar } = config;
     const [scrolled, setScrolled] = useState(false);
-    const [menuOpen, setMenuOpen] = useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
 
     useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 20);
-        window.addEventListener("scroll", onScroll, { passive: true });
-        return () => window.removeEventListener("scroll", onScroll);
+        const handleScroll = () => setScrolled(window.scrollY > 50);
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    const navLinks = navbar?.links || [
+        { href: "#services", label: "Services" },
+        { href: "#resultats", label: "Résultats" },
+        { href: "#temoignages", label: "Témoignages" },
+        { href: "#processus", label: "Processus" },
+        { href: "#faq", label: "FAQ" },
+    ];
+
+    const handleLinkClick = (e, href) => {
+        e.preventDefault();
+        setMobileOpen(false);
+        document.body.style.overflow = "";
+        const el = document.querySelector(href);
+        if (el) {
+            const offset = 80;
+            const top = el.getBoundingClientRect().top + window.scrollY - offset;
+            window.scrollTo({ top, behavior: "smooth" });
+        }
+    };
+
+    const toggleMobile = () => {
+        setMobileOpen(!mobileOpen);
+        document.body.style.overflow = mobileOpen ? "" : "hidden";
+    };
+
+    const brandTitle = meta?.brandName || "StarsBridgeSystem";
+    const logoSrc = meta?.logo || "/starsbridgesystem.png";
+
     return (
-        <nav
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-                ? "bg-[var(--color-bg-primary)]/95 backdrop-blur-md border-b border-[var(--color-border-default)]"
-                : "bg-transparent"
-                }`}
-        >
-            <div className="max-w-[1200px] mx-auto px-6 h-16 flex items-center justify-between">
-                {/* Logo */}
-                <a href="/" className="flex items-center gap-2 text-[var(--color-text-primary)] font-bold text-lg">
-                    {navbar.logo.emoji && <span className="text-xl">{navbar.logo.emoji}</span>}
-                    <span className="hidden sm:inline">{navbar.logo.text}</span>
-                </a>
-
-                {/* Desktop Links */}
-                <div className="hidden md:flex items-center gap-8">
-                    {navbar.links.map((link, i) => (
-                        <a
-                            key={i}
-                            href={link.href}
-                            className="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors"
-                        >
-                            {link.label}
-                        </a>
-                    ))}
-                    <a
-                        href={navbar.cta.href}
-                        className={`px-5 py-2 bg-[var(--color-cta)] text-[var(--color-bg-primary)] font-semibold ${btnRadius} text-sm hover:bg-[var(--color-cta-hover)] transition-colors`}
-                    >
-                        {navbar.cta.text}
+        <>
+            <nav
+                className={`sticky top-0 z-50 transition-all duration-300 ${scrolled
+                    ? "bg-[var(--color-bg-primary)]/90 backdrop-blur-xl border-b border-[var(--color-border-default)] py-3"
+                    : "bg-[var(--color-bg-primary)] py-4"
+                    }`}
+            >
+                <div className="max-w-[1200px] mx-auto px-6 flex items-center justify-between">
+                    <a href="#" className="flex items-center gap-2">
+                        <Image src={logoSrc} alt={brandTitle} width={32} height={32} className="h-8 w-auto" unoptimized />
+                        <span className="text-xl font-bold tracking-tight text-[var(--color-text-primary)]">
+                            {brandTitle}
+                        </span>
                     </a>
-                </div>
 
-                {/* Mobile Hamburger */}
-                <button
-                    onClick={() => setMenuOpen(!menuOpen)}
-                    className="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5"
-                    aria-label="Menu"
-                >
-                    <span className={`block w-6 h-0.5 bg-[var(--color-text-primary)] transition-all ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
-                    <span className={`block w-6 h-0.5 bg-[var(--color-text-primary)] transition-all ${menuOpen ? "opacity-0" : ""}`} />
-                    <span className={`block w-6 h-0.5 bg-[var(--color-text-primary)] transition-all ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
-                </button>
-            </div>
+                    {/* Desktop Links */}
+                    <div className="hidden md:flex items-center gap-8">
+                        {navLinks.map((link) => (
+                            <a
+                                key={link.href}
+                                href={link.href}
+                                onClick={(e) => handleLinkClick(e, link.href)}
+                                className="text-sm text-[var(--color-text-secondary)] hover:text-white transition-colors relative group"
+                            >
+                                {link.label}
+                                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[var(--color-accent)] transition-all duration-300 group-hover:w-full" />
+                            </a>
+                        ))}
+                        <a
+                            href={globalLinks?.calendar || "#rdv"}
+                            onClick={(e) => handleLinkClick(e, "#rdv")}
+                            className="ml-4 px-5 py-2 bg-[var(--color-cta)] text-[var(--color-bg-primary)] text-sm font-semibold rounded-full hover:bg-[var(--color-cta-hover)] transition-all duration-300 cursor-pointer"
+                        >
+                            {navbar?.ctaText || "Réserver un Appel"}
+                        </a>
+                    </div>
+
+                    {/* Hamburger */}
+                    <button
+                        className="md:hidden flex flex-col gap-[5px] p-2"
+                        onClick={toggleMobile}
+                        aria-label="Menu"
+                    >
+                        <span className={`w-6 h-0.5 bg-white rounded transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
+                        <span className={`w-6 h-0.5 bg-white rounded transition-all duration-300 ${mobileOpen ? "opacity-0" : ""}`} />
+                        <span className={`w-6 h-0.5 bg-white rounded transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-[7px]" : ""}`} />
+                    </button>
+                </div>
+            </nav>
 
             {/* Mobile Menu */}
             <div
-                className={`md:hidden overflow-hidden transition-all duration-300 bg-[var(--color-bg-surface)] border-b border-[var(--color-border-default)] ${menuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                className={`fixed inset-0 z-40 bg-[var(--color-bg-primary)]/97 backdrop-blur-xl flex flex-col items-center justify-center gap-8 transition-all duration-300 ${mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
                     }`}
             >
-                <div className="px-6 py-4 space-y-4">
-                    {navbar.links.map((link, i) => (
-                        <a
-                            key={i}
-                            href={link.href}
-                            onClick={() => setMenuOpen(false)}
-                            className="block text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
-                        >
-                            {link.label}
-                        </a>
-                    ))}
+                {navLinks.map((link) => (
                     <a
-                        href={navbar.cta.href}
-                        onClick={() => setMenuOpen(false)}
-                        className={`block w-full text-center px-5 py-3 bg-[var(--color-cta)] text-[var(--color-bg-primary)] font-semibold ${btnRadius}`}
+                        key={link.href}
+                        href={link.href}
+                        onClick={(e) => handleLinkClick(e, link.href)}
+                        className="text-2xl font-medium text-[var(--color-text-secondary)] hover:text-white transition-colors"
                     >
-                        {navbar.cta.text}
+                        {link.label}
                     </a>
-                </div>
+                ))}
+                <a
+                    href="#rdv"
+                    onClick={(e) => handleLinkClick(e, "#rdv")}
+                    className="mt-4 px-8 py-3 bg-[var(--color-cta)] text-[var(--color-bg-primary)] font-bold rounded-full text-lg hover:bg-[var(--color-cta-hover)] transition-all cursor-pointer"
+                >
+                    {navbar?.ctaText || "Réserver un Appel"}
+                </a>
             </div>
-        </nav>
+        </>
     );
 }

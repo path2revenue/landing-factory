@@ -1,4 +1,4 @@
-import { siteConfig } from "@/site.config";
+import { getConfig } from "@/lib/config";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import SocialProof from "./components/SocialProof";
@@ -16,32 +16,36 @@ import Footer from "./components/Footer";
 
 /* ─── Map section keys to components ─── */
 const SECTION_MAP = {
-  hero: Hero,
-  socialProof: SocialProof,
-  painPoints: PainPoints,
-  results: Results,
-  videoTestimonials: VideoTestimonials,
-  services: Services,
-  process: Process,
-  honesty: Honesty,
-  calendar: Calendar,
-  testimonials: Testimonials,
-  faq: FAQ,
-  finalCTA: FinalCTA,
+    hero: Hero,
+    socialProof: SocialProof,
+    painPoints: PainPoints,
+    results: Results,
+    videoTestimonials: VideoTestimonials,
+    services: Services,
+    process: Process,
+    honesty: Honesty,
+    calendar: Calendar,
+    testimonials: Testimonials,
+    faq: FAQ,
+    finalCTA: FinalCTA,
 };
 
-export default function Home() {
-  return (
-    <>
-      <Navbar />
-      <main>
-        {siteConfig.sections.map((key) => {
-          const Component = SECTION_MAP[key];
-          if (!Component) return null;
-          return <Component key={key} />;
-        })}
-      </main>
-      <Footer />
-    </>
-  );
+export const revalidate = 60; // ISR: revalidate every 60s
+
+export default async function Home() {
+    const { config } = await getConfig();
+
+    return (
+        <>
+            <Navbar config={config} />
+            <main>
+                {(config.sections || []).map((key) => {
+                    const Component = SECTION_MAP[key];
+                    if (!Component) return null;
+                    return <Component key={key} config={config} />;
+                })}
+            </main>
+            <Footer config={config} />
+        </>
+    );
 }

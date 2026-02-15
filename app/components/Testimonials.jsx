@@ -1,123 +1,89 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { siteConfig } from "@/site.config";
-import SectionHeader from "./SectionHeader";
+import { useState, useRef, useEffect, useCallback } from "react";
 
-const layout = siteConfig.design?.layout || "centered";
-const cardRadius = layout === "editorial" ? "rounded-xl" : layout === "minimal" ? "rounded-lg" : "rounded-2xl";
+export default function Testimonials({ config }) {
+    const items = config?.testimonials?.items || [
+        { name: "Ahmed K.", role: "CEO, Agence Digitale", quote: "Le système a transformé notre acquisition client. On est passé de 5 à 25 appels qualifiés par semaine en 3 mois.", rating: 5 },
+        { name: "Sarah L.", role: "Coach Business", quote: "Enfin un partenaire qui comprend l'acquisition B2B. Les résultats parlent d'eux-mêmes : 3x notre CA en 6 mois.", rating: 5 },
+        { name: "Mehdi B.", role: "Fondateur, SaaS", quote: "L'approche est chirurgicale. Chaque euro investi est tracé et optimisé. On sait exactement ce qui fonctionne.", rating: 5 },
+        { name: "Julie D.", role: "Formatrice", quote: "De 0 à 8.6K€ en un seul webinaire. Le ROI est hallucinant. Et surtout, c'est reproductible.", rating: 5 },
+        { name: "Karim R.", role: "Agent Immobilier", quote: "Ils ont construit tout le système de A à Z. Landing pages, pubs, CRM, relances. Je n'ai qu'à closer.", rating: 5 },
+    ];
 
-/* ═══════════════════════════════════════════
-   CENTERED — card grid with navigation arrows
-   ═══════════════════════════════════════════ */
-function TestimonialsCentered({ data }) {
-    const [page, setPage] = useState(0);
-    const perPage = 3;
-    const pages = Math.ceil(data.items.length / perPage);
-    const items = data.items.slice(page * perPage, page * perPage + perPage);
+    const [current, setCurrent] = useState(0);
+    const [touchStart, setTouchStart] = useState(0);
+    const intervalRef = useRef(null);
 
-    return (
-        <>
-            <div className="grid md:grid-cols-3 gap-6 mb-8">
-                {items.map((t, i) => (
-                    <div key={i} className={`bg-[var(--color-bg-card)] border border-[var(--color-border-default)] ${cardRadius} p-6 shadow-sm`}>
-                        <div className="flex items-center gap-1 mb-3">
-                            {Array.from({ length: 5 }).map((_, j) => (
-                                <svg key={j} className="w-4 h-4 text-[var(--color-accent)]" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                            ))}
-                        </div>
-                        <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed italic mb-4">&quot;{t.text}&quot;</p>
-                        <div className="flex items-center gap-3 pt-3 border-t border-[var(--color-border-default)]">
-                            <div className="w-8 h-8 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-xs font-bold text-[var(--color-accent)]">
-                                {t.name.charAt(0)}
-                            </div>
-                            <div>
-                                <div className="text-xs font-semibold text-[var(--color-text-primary)]">{t.name}</div>
-                                <div className="text-[10px] text-[var(--color-text-muted)]">{t.role}</div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-            {pages > 1 && (
-                <div className="flex justify-center gap-3">
-                    <button onClick={() => setPage((p) => Math.max(0, p - 1))} className="w-10 h-10 rounded-full border border-[var(--color-border-default)] flex items-center justify-center text-[var(--color-text-secondary)] hover:border-[var(--color-accent)] transition cursor-pointer" aria-label="Précédent">←</button>
-                    <button onClick={() => setPage((p) => Math.min(pages - 1, p + 1))} className="w-10 h-10 rounded-full border border-[var(--color-border-default)] flex items-center justify-center text-[var(--color-text-secondary)] hover:border-[var(--color-accent)] transition cursor-pointer" aria-label="Suivant">→</button>
-                </div>
-            )}
-        </>
-    );
-}
-
-/* ═══════════════════════════════════════════
-   EDITORIAL — large single quote with dots
-   ═══════════════════════════════════════════ */
-function TestimonialsEditorial({ data }) {
-    const [active, setActive] = useState(0);
-    const t = data.items[active];
+    const next = useCallback(() => setCurrent((c) => (c + 1) % items.length), [items.length]);
+    const prev = useCallback(() => setCurrent((c) => (c - 1 + items.length) % items.length), [items.length]);
 
     useEffect(() => {
-        const timer = setInterval(() => setActive((a) => (a + 1) % data.items.length), 8000);
-        return () => clearInterval(timer);
-    }, [data.items.length]);
+        intervalRef.current = setInterval(next, 5000);
+        return () => clearInterval(intervalRef.current);
+    }, [next]);
+
+    const handleTouchStart = (e) => setTouchStart(e.touches[0].clientX);
+    const handleTouchEnd = (e) => {
+        const diff = touchStart - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) {
+            clearInterval(intervalRef.current);
+            diff > 0 ? next() : prev();
+        }
+    };
 
     return (
-        <div className="max-w-[700px]">
-            <div className={`bg-[var(--color-bg-card)] border border-[var(--color-border-default)] rounded-xl p-8 md:p-10 relative`}>
-                <span className="absolute top-4 left-6 text-5xl text-[var(--color-accent)]/20 font-serif leading-none select-none">"</span>
-                <p className="text-lg text-[var(--color-text-secondary)] italic leading-relaxed mt-6 mb-6">&quot;{t.text}&quot;</p>
-                <div className="flex items-center gap-3 pt-4 border-t border-[var(--color-border-default)]">
-                    <div className="w-10 h-10 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-sm font-bold text-[var(--color-accent)]">
-                        {t.name.charAt(0)}
-                    </div>
-                    <div>
-                        <div className="text-sm font-semibold text-[var(--color-text-primary)]">{t.name}</div>
-                        <div className="text-xs text-[var(--color-text-muted)]">{t.role}</div>
+        <section id="temoignages" className="py-24 px-6 bg-[var(--color-bg-primary)]/80">
+            <div className="max-w-[700px] mx-auto">
+                <div className="text-center mb-12">
+                    <span className="text-xs uppercase tracking-[0.2em] text-[var(--color-accent)] font-semibold">
+                        {config?.testimonials?.eyebrow || "Témoignages"}
+                    </span>
+                    <h2 className="text-3xl md:text-5xl font-bold mt-3">
+                        {config?.testimonials?.titleBefore || "Ce Que Disent "}
+                        <span className="bg-gradient-to-r from-[var(--color-gradient-from)] to-[var(--color-gradient-to)] bg-clip-text text-transparent">
+                            {config?.testimonials?.titleHighlight || "Nos Clients"}
+                        </span>
+                    </h2>
+                </div>
+
+                {/* Carousel */}
+                <div
+                    className="relative bg-[var(--color-bg-surface)] border border-[var(--color-border-default)] rounded-2xl p-8 md:p-12 min-h-[240px]"
+                    onTouchStart={handleTouchStart}
+                    onTouchEnd={handleTouchEnd}
+                >
+                    {/* Arrows */}
+                    <button onClick={() => { clearInterval(intervalRef.current); prev(); }} className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-[var(--color-bg-card)] border border-[var(--color-border-default)] flex items-center justify-center text-[var(--color-text-secondary)] hover:text-white hover:border-[var(--color-accent)] transition-all cursor-pointer">
+                        ←
+                    </button>
+                    <button onClick={() => { clearInterval(intervalRef.current); next(); }} className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-[var(--color-bg-card)] border border-[var(--color-border-default)] flex items-center justify-center text-[var(--color-text-secondary)] hover:text-white hover:border-[var(--color-accent)] transition-all cursor-pointer">
+                        →
+                    </button>
+
+                    {/* Content */}
+                    <div className="text-center px-8">
+                        <div className="text-[var(--color-cta)] text-lg mb-4">{"★".repeat(items[current].rating || 5)}</div>
+                        <blockquote className="text-lg md:text-xl text-[var(--color-text-primary)] leading-relaxed mb-6 italic transition-all duration-300">
+                            &ldquo;{items[current].quote}&rdquo;
+                        </blockquote>
+                        <div>
+                            <p className="font-bold text-[var(--color-text-primary)]">{items[current].name}</p>
+                            <p className="text-sm text-[var(--color-accent)]">{items[current].role}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="flex gap-2 mt-6">
-                {data.items.map((_, i) => (
-                    <button key={i} onClick={() => setActive(i)} className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${active === i ? "w-8 bg-[var(--color-accent)]" : "w-3 bg-[var(--color-border-default)]"}`} />
-                ))}
-            </div>
-        </div>
-    );
-}
 
-/* ═══════════════════════════════════════════
-   MINIMAL — stacked quotes, no pagination
-   ═══════════════════════════════════════════ */
-function TestimonialsMinimal({ data }) {
-    return (
-        <div className="max-w-[650px] space-y-8">
-            {data.items.slice(0, 3).map((t, i) => (
-                <div key={i} className="border-l-2 border-[var(--color-accent)]/30 pl-6">
-                    <p className="text-base text-[var(--color-text-secondary)] italic leading-relaxed mb-3">&quot;{t.text}&quot;</p>
-                    <div className="text-xs text-[var(--color-text-muted)]">— <span className="text-[var(--color-text-primary)] font-medium">{t.name}</span>, {t.role}</div>
+                {/* Dots */}
+                <div className="flex items-center justify-center gap-2 mt-6">
+                    {items.map((_, i) => (
+                        <button
+                            key={i}
+                            onClick={() => { clearInterval(intervalRef.current); setCurrent(i); }}
+                            className={`w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${i === current ? "w-6 bg-[var(--color-accent)]" : "bg-[var(--color-border-hover)]"}`}
+                        />
+                    ))}
                 </div>
-            ))}
-        </div>
-    );
-}
-
-export default function Testimonials() {
-    const { testimonials: data } = siteConfig;
-
-    return (
-        <section className="py-24 px-6 bg-[var(--color-bg-surface)]/30">
-            <div className="max-w-[1200px] mx-auto">
-                <SectionHeader
-                    eyebrow={data.eyebrow}
-                    headline={data.headline}
-                    highlightedText={data.highlightedText}
-                    subtitle={data.subtitle}
-                />
-                {layout === "editorial" ? <TestimonialsEditorial data={data} />
-                    : layout === "minimal" ? <TestimonialsMinimal data={data} />
-                        : <TestimonialsCentered data={data} />}
             </div>
         </section>
     );

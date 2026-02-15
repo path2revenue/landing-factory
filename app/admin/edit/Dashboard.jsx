@@ -39,6 +39,7 @@ const PALETTES = [
     { value: "healthcare", label: "🟢 Healthcare — Vert apaisant" },
     { value: "creative", label: "🟠 Creative — Orange & Coral" },
     { value: "dark", label: "⚫ Dark — Gris & Blanc" },
+    { value: "obsidian", label: "🔴 Obsidian — Rouge & Or" },
     { value: "sunset", label: "🌅 Sunset — Rose & Doré" },
     { value: "ocean", label: "🌊 Ocean — Bleu teal" },
 ];
@@ -107,8 +108,8 @@ export default function Dashboard({ config, onSave, saving, saveMsg }) {
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
                                 className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all ${activeTab === tab.id
-                                        ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20"
-                                        : "text-slate-400 hover:text-white hover:bg-slate-800"
+                                    ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20"
+                                    : "text-slate-400 hover:text-white hover:bg-slate-800"
                                     }`}
                             >
                                 <Icon className="w-4 h-4" />

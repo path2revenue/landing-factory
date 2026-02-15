@@ -135,6 +135,42 @@
   --color-gradient-to: #F59E0B;
 }
 
+/* Sunset — Coaching, Lifestyle, Personal Brand */
+[data-palette="sunset"] {
+  --color-bg-primary: #1A0A14;
+  --color-bg-surface: #2D1222;
+  --color-bg-card: #3B1A2E;
+  --color-bg-elevated: #4A2238;
+  --color-border-default: #4A2238;
+  --color-border-hover: #6B3050;
+  --color-accent: #F472B6;
+  --color-accent-light: #F9A8D4;
+  --color-accent-glow: rgba(244, 114, 182, 0.3);
+  --color-cta: #F59E0B;
+  --color-cta-hover: #FBBF24;
+  --color-cta-glow: rgba(245, 158, 11, 0.35);
+  --color-gradient-from: #F472B6;
+  --color-gradient-to: #F59E0B;
+}
+
+/* Ocean — Agencies, Consulting, B2B */
+[data-palette="ocean"] {
+  --color-bg-primary: #0A1628;
+  --color-bg-surface: #0F2035;
+  --color-bg-card: #152A42;
+  --color-bg-elevated: #1B3450;
+  --color-border-default: #1E3A5F;
+  --color-border-hover: #2A5080;
+  --color-accent: #0EA5E9;
+  --color-accent-light: #38BDF8;
+  --color-accent-glow: rgba(14, 165, 233, 0.3);
+  --color-cta: #14B8A6;
+  --color-cta-hover: #2DD4BF;
+  --color-cta-glow: rgba(20, 184, 166, 0.35);
+  --color-gradient-from: #0EA5E9;
+  --color-gradient-to: #14B8A6;
+}
+
 /* ============================================
    BASE
    ============================================ */

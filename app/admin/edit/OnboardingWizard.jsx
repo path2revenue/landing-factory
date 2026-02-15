@@ -8,11 +8,14 @@ import { ArrowLeft, ArrowRight, Check, Rocket } from "lucide-react";
 
 const PALETTES = [
     { value: "trust", label: "🔵 Trust (Bleu/Marine)", colors: ["#3B82F6", "#1E3A8A"] },
-    { value: "vibrant", label: "🟣 Vibrant (Violet/Cyan)", colors: ["#8B5CF6", "#06B6D4"] },
-    { value: "luxury", label: "🟡 Luxury (Or/Noir)", colors: ["#D4AF37", "#000000"] },
-    { value: "healthcare", label: "🟢 Healthcare (Vert/Blanc)", colors: ["#10B981", "#ECFDF5"] },
-    { value: "creative", label: "🟠 Creative (Orange/Rose)", colors: ["#F97316", "#EC4899"] },
-    { value: "dark", label: "⚫ Dark (Gris/Néon)", colors: ["#0F172A", "#38BDF8"] },
+    { value: "vibrant", label: "🟣 Vibrant (Violet/Cyan)", colors: ["#6366F1", "#06B6D4"] },
+    { value: "luxury", label: "🟡 Luxury (Or/Noir)", colors: ["#CA8A04", "#0A0908"] },
+    { value: "healthcare", label: "🟢 Healthcare (Vert/Teal)", colors: ["#10B981", "#0891B2"] },
+    { value: "creative", label: "🟠 Creative (Rose/Violet)", colors: ["#EC4899", "#8B5CF6"] },
+    { value: "dark", label: "⚫ Dark (Gris/Néon)", colors: ["#0A0A0A", "#3B82F6"] },
+    { value: "obsidian", label: "🔴 Obsidian (Rouge/Or)", colors: ["#DC2626", "#F59E0B"] },
+    { value: "sunset", label: "🌅 Sunset (Rose/Doré)", colors: ["#F472B6", "#F59E0B"] },
+    { value: "ocean", label: "🌊 Ocean (Bleu/Teal)", colors: ["#0EA5E9", "#14B8A6"] },
 ];
 
 const STYLES = [
@@ -21,14 +24,18 @@ const STYLES = [
     { value: "aurora", label: "Aurora (Dégradés doux)" },
     { value: "bento", label: "Bento (Grilles)" },
     { value: "minimal", label: "Minimal (Épuré)" },
+    { value: "brutalist", label: "Brutalist (Bold & Brut)" },
 ];
 
 const FONTS = [
-    { value: "Inter", label: "Inter (Standard)" },
-    { value: "Roboto", label: "Roboto (Tech)" },
-    { value: "Playfair Display", label: "Playfair (Luxe)" },
-    { value: "Montserrat", label: "Montserrat (Moderne)" },
+    { value: "Inter", label: "Inter (Moderne)" },
+    { value: "Montserrat", label: "Montserrat (Géométrique)" },
+    { value: "Playfair Display", label: "Playfair (Élégant)" },
+    { value: "Roboto", label: "Roboto (Standard)" },
     { value: "Lato", label: "Lato (Humaniste)" },
+    { value: "Space Grotesk", label: "Space Grotesk (Tech)" },
+    { value: "DM Sans", label: "DM Sans (Friendly)" },
+    { value: "Outfit", label: "Outfit (Contemporary)" },
 ];
 
 export default function OnboardingWizard({ config, onComplete, saving }) {
@@ -109,8 +116,8 @@ export default function OnboardingWizard({ config, onComplete, saving }) {
                                     key={p.value}
                                     onClick={() => updateField("design", "palette", p.value)}
                                     className={`flex items-center gap-3 p-3 rounded-lg border text-left transition-all ${formData.design?.palette === p.value
-                                            ? "border-blue-500 bg-blue-500/10 ring-1 ring-blue-500"
-                                            : "border-slate-700 hover:bg-slate-750"
+                                        ? "border-blue-500 bg-blue-500/10 ring-1 ring-blue-500"
+                                        : "border-slate-700 hover:bg-slate-750"
                                         }`}
                                 >
                                     <div className="flex h-6 w-6 rounded-full overflow-hidden border border-slate-600">

@@ -1,36 +1,190 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🏭 Landing Factory
 
-## Getting Started
+**Un template universel pour créer des landing pages professionnelles en quelques minutes.**
 
-First, run the development server:
+Un seul codebase → N sites. Chaque site est piloté par son propre `SITE_ID` dans Supabase.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## ✨ Fonctionnalités
+
+- **16 sections modulaires** : Hero, SocialProof, PainPoints, Results, VideoTestimonials, Services, Process, Honesty, Calendar, Testimonials, FAQ, FinalCTA, Footer, Navbar, Mentions Légales, Merci
+- **9 palettes de couleurs** : Trust, Vibrant, Luxury, Healthcare, Creative, Dark, Obsidian, Sunset, Ocean
+- **6 styles visuels** : Linear, Glassmorphism, Aurora, Bento, Minimal, Brutalist
+- **8 polices Google Fonts** : Inter, Montserrat, Playfair Display, Roboto, Lato, Space Grotesk, DM Sans, Outfit
+- **Admin complet** (`/admin`) : Onboarding wizard + Dashboard + Visual Editor
+- **SEO optimisé** : Meta tags, OG, robots.txt, sitemap
+- **Tracking** : Meta Pixel, Google Analytics
+- **Page Mentions Légales** auto-générée
+- **Page Merci** pour les conversions
+- **100% responsive**
+
+---
+
+## 🏗️ Architecture
+
+```
+landing-factory/
+├── app/
+│   ├── components/          # 16 sections de landing page
+│   │   ├── Hero.jsx
+│   │   ├── PainPoints.jsx
+│   │   ├── Services.jsx
+│   │   ├── Results.jsx
+│   │   ├── Process.jsx
+│   │   ├── Honesty.jsx
+│   │   ├── FAQ.jsx
+│   │   ├── Calendar.jsx
+│   │   ├── FinalCTA.jsx
+│   │   ├── VideoTestimonials.jsx
+│   │   ├── Testimonials.jsx
+│   │   ├── SocialProof.jsx
+│   │   ├── Navbar.jsx
+│   │   ├── Footer.jsx
+│   │   └── ...
+│   ├── admin/
+│   │   ├── page.js              # Login admin
+│   │   ├── LoginForm.jsx
+│   │   ├── edit/
+│   │   │   ├── Dashboard.jsx        # 7 onglets d'édition
+│   │   │   ├── OnboardingWizard.jsx # Assistant de création
+│   │   │   ├── VisualEditor.jsx     # Éditeur visuel live
+│   │   │   └── SectionEditPanel.jsx # Panneaux d'édition par section
+│   │   └── components/ui/      # Composants UI admin
+│   ├── api/
+│   │   └── admin/
+│   │       ├── login/route.js   # Auth admin
+│   │       ├── save/route.js    # Sauvegarde config
+│   │       └── upload/route.js  # Upload fichiers
+│   ├── mentions-legales/        # Page juridique
+│   ├── merci/                   # Page post-conversion
+│   ├── globals.css              # Design system (palettes + styles)
+│   ├── layout.js                # Layout racine (fonts, tracking, palette, style)
+│   ├── page.js                  # Page principale (assemble les sections)
+│   └── robots.js                # SEO robots
+├── lib/
+│   ├── config.js                # Chargement config Supabase
+│   ├── supabase.js              # Client Supabase
+│   └── auth.js                  # Auth admin
+├── public/                      # Assets statiques (images, logos)
+├── site.config.js               # Config fallback locale
+└── .env.local                   # Variables d'environnement
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## ⚙️ Configuration
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Variables d'environnement (`.env.local`)
 
-## Learn More
+```env
+SITE_ID=nom-du-site
+ADMIN_PASSWORD=mot-de-passe-admin
+SUPABASE_URL=https://xxxxx.supabase.co
+SUPABASE_SERVICE_KEY=eyJxxxxx
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Config Supabase
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Chaque site utilise une ligne dans la table `site_configs` :
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Colonne      | Type    | Description                        |
+| ------------ | ------- | ---------------------------------- |
+| `site_id`    | text    | Identifiant unique du site (PK)    |
+| `config`     | jsonb   | Configuration complète du site     |
+| `updated_at` | timestamp | Dernière mise à jour             |
 
-## Deploy on Vercel
+La config JSONB contient les sections : `meta`, `design`, `hero`, `painPoints`, `services`, `results`, `process`, `honesty`, `faq`, `calendar`, `testimonials`, `videoTestimonials`, `finalCTA`, `footer`, `navbar`, `links`, `tracking`, `sections` (ordre).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🚀 Lancement rapide
+
+```bash
+# 1. Installer les dépendances
+npm install
+
+# 2. Configurer .env.local (voir ci-dessus)
+
+# 3. Lancer en dev
+npm run dev
+
+# 4. Ouvrir le navigateur
+# Site : http://localhost:3000
+# Admin : http://localhost:3000/admin
+```
+
+---
+
+## 🎨 Design System
+
+### Palettes (via `data-palette` sur `<html>`)
+
+| Palette      | Description               |
+| ------------ | ------------------------- |
+| `trust`      | 🔵 Bleu professionnel     |
+| `vibrant`    | 🟣 Violet / Magenta       |
+| `luxury`     | 🟡 Or & Noir              |
+| `healthcare` | 🟢 Vert apaisant          |
+| `creative`   | 🟠 Rose & Violet          |
+| `dark`       | ⚫ Gris & Néon            |
+| `obsidian`   | 🔴 Rouge & Or             |
+| `sunset`     | 🌅 Rose & Doré            |
+| `ocean`      | 🌊 Bleu teal              |
+
+### Styles visuels (via `data-style` sur `<html>`)
+
+| Style          | Effet                                    |
+| -------------- | ---------------------------------------- |
+| `linear`       | Clean, SaaS (défaut)                     |
+| `glassmorphism` | Verre dépoli, backdrop-blur             |
+| `aurora`       | Glows néon, ombres colorées              |
+| `bento`        | Grille japonaise, bordures nettes        |
+| `minimal`      | Aucune ombre, ultra-épuré                |
+| `brutalist`    | 0 border-radius, bordures épaisses       |
+
+### Variables CSS
+
+Toutes les couleurs utilisent des CSS custom properties :
+
+```css
+--color-bg-primary      /* Fond principal */
+--color-bg-surface      /* Fond surface secondaire */
+--color-bg-card         /* Fond des cartes */
+--color-accent          /* Couleur d'accent */
+--color-cta             /* Couleur Call to Action */
+--color-text-primary    /* Texte principal */
+--color-text-secondary  /* Texte secondaire */
+--color-text-muted      /* Texte discret */
+```
+
+---
+
+## 🔒 Admin Panel
+
+- **URL** : `/admin`
+- **Auth** : mot de passe simple via `ADMIN_PASSWORD`
+- **Onboarding** : assistant 6 étapes pour la création initiale
+- **Dashboard** : 7 onglets (Hero, Problème, Résultats, Services, Parcours, Preuve Sociale, Design & SEO)
+- **Visual Editor** : édition live avec preview en temps réel
+- **Admin non indexé** : `robots.js` bloque `/admin` du SEO
+
+---
+
+## 📦 Déploiement
+
+```bash
+# Build
+npm run build
+
+# Deployer sur Vercel
+npx vercel --yes
+```
+
+Vercel auto-déploie sur chaque push GitHub.
+
+---
+
+## 📄 Licence
+
+Propriétaire — Path2Revenue. Tous droits réservés.

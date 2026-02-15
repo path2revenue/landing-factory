@@ -30,9 +30,9 @@ export default async function RootLayout({ children }) {
     const fontUrl = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(
         design.fontHeading || "Inter"
     )}:wght@${design.fontWeights || "300;400;500;600;700;800"}&display=swap${design.fontBody && design.fontBody !== design.fontHeading
-            ? `&family=${encodeURIComponent(design.fontBody)}:wght@${design.fontWeights || "300;400;500;600;700;800"
-            }&display=swap`
-            : ""
+        ? `&family=${encodeURIComponent(design.fontBody)}:wght@${design.fontWeights || "300;400;500;600;700;800"
+        }&display=swap`
+        : ""
         }`;
 
     const faviconHref =
@@ -43,7 +43,7 @@ export default async function RootLayout({ children }) {
             )}</text></svg>`;
 
     return (
-        <html lang={meta.lang || "fr"} data-palette={design.palette || "trust"}>
+        <html lang={meta.lang || "fr"} data-palette={design.palette || "trust"} data-style={design.style || "linear"}>
             <head>
                 <link rel="icon" href={faviconHref} />
                 <link rel="preconnect" href="https://fonts.googleapis.com" />

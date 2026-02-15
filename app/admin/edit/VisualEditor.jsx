@@ -78,6 +78,16 @@ export default function VisualEditor({ config: initialConfig, onSave, saving, sa
         }
     }, [config?.design?.palette]);
 
+    /* ── Live style preview ── */
+    useEffect(() => {
+        const style = config?.design?.style;
+        if (style) {
+            document.documentElement.setAttribute("data-style", style);
+        } else {
+            document.documentElement.removeAttribute("data-style");
+        }
+    }, [config?.design?.style]);
+
     /* ── Section reorder ── */
     const moveSection = useCallback((index, direction) => {
         const newSections = [...sections];

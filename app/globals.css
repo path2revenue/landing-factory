@@ -172,6 +172,91 @@
 }
 
 /* ============================================
+   VISUAL STYLE OVERRIDES
+   ============================================ */
+
+/* Linear — Default, clean SaaS (no overrides needed, base styles apply) */
+
+/* Glassmorphism — Frosted glass, blur, translucency */
+[data-style="glassmorphism"] section {
+  backdrop-filter: blur(12px);
+}
+
+[data-style="glassmorphism"] [class*="bg-[var(--color-bg-card)"] {
+  background: color-mix(in srgb, var(--color-bg-card) 60%, transparent) !important;
+  backdrop-filter: blur(16px);
+  border: 1px solid color-mix(in srgb, var(--color-border-hover) 40%, transparent);
+}
+
+[data-style="glassmorphism"] [class*="bg-[var(--color-bg-surface)"] {
+  background: color-mix(in srgb, var(--color-bg-surface) 50%, transparent) !important;
+  backdrop-filter: blur(12px);
+}
+
+/* Aurora — Gradient glows, soft neon accents */
+[data-style="aurora"] section {
+  position: relative;
+}
+
+[data-style="aurora"] [class*="bg-[var(--color-bg-card)"] {
+  box-shadow: 0 0 30px -10px var(--color-accent-glow),
+    0 0 60px -20px var(--color-cta-glow);
+}
+
+[data-style="aurora"] [class*="border-[var(--color-accent)"] {
+  box-shadow: 0 0 12px 0 var(--color-accent-glow);
+}
+
+/* Bento — Grid-like, sharp cards, defined borders */
+[data-style="bento"] [class*="rounded-xl"],
+[data-style="bento"] [class*="rounded-2xl"],
+[data-style="bento"] [class*="rounded-3xl"] {
+  border-radius: 12px !important;
+}
+
+[data-style="bento"] [class*="bg-[var(--color-bg-card)"] {
+  border: 1px solid var(--color-border-hover);
+}
+
+/* Minimal — Ultra-clean, no shadows, pure whitespace */
+[data-style="minimal"] [class*="shadow"],
+[data-style="minimal"] [class*="ring"] {
+  box-shadow: none !important;
+}
+
+[data-style="minimal"] [class*="bg-[var(--color-bg-card)"] {
+  border: 1px solid var(--color-border-default);
+  box-shadow: none !important;
+}
+
+[data-style="minimal"] [class*="bg-[var(--color-bg-surface)"] {
+  background: var(--color-bg-primary) !important;
+}
+
+/* Brutalist — Thick borders, hard shadows, no radius */
+[data-style="brutalist"] * {
+  border-radius: 0 !important;
+}
+
+[data-style="brutalist"] [class*="bg-[var(--color-bg-card)"] {
+  border: 2px solid var(--color-text-primary);
+  box-shadow: 4px 4px 0 0 var(--color-accent);
+}
+
+[data-style="brutalist"] button,
+[data-style="brutalist"] a[class*="bg-[var(--color-cta)"] {
+  border: 2px solid currentColor;
+  box-shadow: 3px 3px 0 0 currentColor;
+  transition: box-shadow 0.1s ease, transform 0.1s ease;
+}
+
+[data-style="brutalist"] button:hover,
+[data-style="brutalist"] a[class*="bg-[var(--color-cta)"]:hover {
+  box-shadow: 1px 1px 0 0 currentColor;
+  transform: translate(2px, 2px);
+}
+
+/* ============================================
    BASE
    ============================================ */
 html {

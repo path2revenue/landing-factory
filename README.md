@@ -1,6 +1,9 @@
-# 🏭 Landing Factory
+# 🏭 Landing Factory — Template Source
 
-**Un template universel pour créer des landing pages professionnelles en quelques minutes.**
+**Le template maître pour créer des landing pages professionnelles en quelques minutes.**
+
+> ⚠️ **Ceci est le template source.** Ne pas déployer ce repo directement.
+> Pour créer un nouveau site, suivre le [SOP.md](./SOP.md).
 
 Un seul codebase → N sites. Chaque site est piloté par son propre `SITE_ID` dans Supabase.
 

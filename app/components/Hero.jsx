@@ -22,7 +22,7 @@ function YouTubeFacade({ videoUrl }) {
     if (!videoId) return null;
 
     const embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&autoplay=1`;
-    const thumbUrl = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+    const thumbUrl = `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
 
     if (play) {
         return (

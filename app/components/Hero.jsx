@@ -1,6 +1,66 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+
+/* ── YouTube Facade ──────────────────────────────────────────────
+   Shows a static thumbnail + play button instead of loading the full
+   YouTube iframe (~1.5 MB JS/CSS). The real player loads only on click.
+   ─────────────────────────────────────────────────────────────── */
+function YouTubeFacade({ videoUrl }) {
+    const [play, setPlay] = useState(false);
+
+    // Extract video ID from various YouTube URL formats
+    const getVideoId = useCallback((url) => {
+        if (!url) return null;
+        if (url.includes("embed/")) return url.split("embed/")[1]?.split("?")[0];
+        if (url.includes("v=")) return url.split("v=")[1]?.split("&")[0];
+        if (url.includes("youtu.be/")) return url.split("youtu.be/")[1]?.split("?")[0];
+        return url; // assume raw ID
+    }, []);
+
+    const videoId = getVideoId(videoUrl);
+    if (!videoId) return null;
+
+    const embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&autoplay=1`;
+    const thumbUrl = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+
+    if (play) {
+        return (
+            <iframe
+                src={embedUrl}
+                style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }}
+                allow="autoplay; fullscreen; picture-in-picture; accelerometer; encrypted-media; gyroscope"
+                allowFullScreen
+                title="Présentation"
+            />
+        );
+    }
+
+    return (
+        <button
+            onClick={() => setPlay(true)}
+            aria-label="Lire la vidéo"
+            className="absolute inset-0 w-full h-full cursor-pointer group bg-black"
+        >
+            {/* Thumbnail */}
+            <img
+                src={thumbUrl}
+                alt="Aperçu vidéo"
+                className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                loading="eager"
+                decoding="async"
+            />
+            {/* Play button */}
+            <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[var(--color-cta)] flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
+                    <svg className="w-7 h-7 md:w-8 md:h-8 text-[var(--color-bg-primary)] ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </div>
+            </div>
+        </button>
+    );
+}
 
 function AnimatedCounter({ target, suffix = "", duration = 2000 }) {
     const [count, setCount] = useState(0);
@@ -97,13 +157,7 @@ export default function Hero({ config }) {
                 {hero?.videoUrl && (
                     <div className="relative rounded-2xl overflow-hidden mb-10 animate-[fadeInUp_1.1s_ease-out] border border-[var(--color-accent)]/20">
                         <div className="relative rounded-2xl overflow-hidden" style={{ paddingBottom: '56.25%' }}>
-                            <iframe
-                                src={hero.videoUrl.includes("embed") ? hero.videoUrl : `https://www.youtube.com/embed/${hero.videoUrl.split("v=")[1]?.split("&")[0] || hero.videoUrl}?rel=0&modestbranding=1`}
-                                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 0 }}
-                                allow="fullscreen; picture-in-picture; accelerometer; encrypted-media; gyroscope"
-                                allowFullScreen
-                                title="Présentation"
-                            />
+                            <YouTubeFacade videoUrl={hero.videoUrl} />
                         </div>
                     </div>
                 )}

@@ -64,6 +64,7 @@ export default function Calendar({ config }) {
                         src={calendarUrl}
                         className="w-full border-none rounded-xl min-h-[1000px] md:min-h-[700px]"
                         scrolling="yes"
+                        loading="lazy"
                         title="Réserver un appel"
                     />
                 </div>

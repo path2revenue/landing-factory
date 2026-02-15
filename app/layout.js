@@ -52,6 +52,9 @@ export default async function RootLayout({ children }) {
                     href="https://fonts.gstatic.com"
                     crossOrigin="anonymous"
                 />
+                <link rel="dns-prefetch" href="https://i.ytimg.com" />
+                <link rel="dns-prefetch" href="https://www.youtube.com" />
+                <link rel="dns-prefetch" href="https://api.leadconnectorhq.com" />
                 <link href={fontUrl} rel="stylesheet" />
 
                 {/* ─── Meta Pixel ─── */}

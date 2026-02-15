@@ -60,7 +60,7 @@ export default function Honesty({ config }) {
                                 {goodFit.map((item, i) => (
                                     <li key={i} className="flex items-start gap-3 text-sm text-[#CBD5E1] leading-relaxed">
                                         <span className="text-[var(--color-success)] mt-0.5 shrink-0">✓</span>
-                                        {item}
+                                        {typeof item === "string" ? item : item?.text || JSON.stringify(item)}
                                     </li>
                                 ))}
                             </ul>
@@ -76,7 +76,7 @@ export default function Honesty({ config }) {
                                 {badFit.map((item, i) => (
                                     <li key={i} className="flex items-start gap-3 text-sm text-[#CBD5E1] leading-relaxed">
                                         <span className="text-[var(--color-danger)] mt-0.5 shrink-0">✕</span>
-                                        {item}
+                                        {typeof item === "string" ? item : item?.text || JSON.stringify(item)}
                                     </li>
                                 ))}
                             </ul>

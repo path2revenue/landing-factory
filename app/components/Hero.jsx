@@ -144,7 +144,7 @@ export default function Hero({ config }) {
                     {trustItems.map((item, i) => (
                         <span key={i} className="flex items-center gap-1.5">
                             <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-success)]" />
-                            {item}
+                            {typeof item === "string" ? item : item?.text || JSON.stringify(item)}
                         </span>
                     ))}
                 </div>

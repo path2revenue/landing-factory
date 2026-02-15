@@ -79,7 +79,7 @@ export default function Calendar({ config }) {
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                                     </svg>
                                 </div>
-                                <span className="text-sm text-[#E2E8F0]">{item}</span>
+                                <span className="text-sm text-[#E2E8F0]">{typeof item === "string" ? item : item?.text || JSON.stringify(item)}</span>
                             </div>
                         ))}
                     </div>

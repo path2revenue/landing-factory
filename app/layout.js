@@ -1,5 +1,6 @@
 import "./globals.css";
 import { getConfig } from "@/lib/config";
+import UTMCapture from "./components/UTMCapture";
 
 export async function generateMetadata() {
     const { config } = await getConfig();
@@ -98,6 +99,7 @@ export default async function RootLayout({ children }) {
                     fontFamily: `'${design.fontBody || "Inter"}', sans-serif`,
                 }}
             >
+                <UTMCapture />
                 {children}
             </body>
         </html>

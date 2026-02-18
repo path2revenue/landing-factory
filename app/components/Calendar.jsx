@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { appendUTMsToUrl } from "../../lib/utm";
 
 export default function Calendar({ config }) {
     const [visible, setVisible] = useState(false);
+    const [calendarSrc, setCalendarSrc] = useState("");
     const ref = useRef(null);
 
     useEffect(() => {
@@ -27,7 +29,12 @@ export default function Calendar({ config }) {
         document.body.appendChild(script);
     }, []);
 
-    const calendarUrl = config?.calendar?.embedUrl || "https://api.leadconnectorhq.com/widget/booking/JcQPg6HogFwOXOlJKoP6";
+    // Build calendar URL with UTM params from cookie
+    useEffect(() => {
+        const baseUrl = config?.calendar?.embedUrl || "https://api.leadconnectorhq.com/widget/booking/JcQPg6HogFwOXOlJKoP6";
+        setCalendarSrc(appendUTMsToUrl(baseUrl));
+    }, [config?.calendar?.embedUrl]);
+
     const waLink = config?.links?.whatsapp
         ? `https://wa.me/${config.links.whatsapp}?text=${encodeURIComponent("Bonjour, je viens du site et j'aimerais réserver un appel pour discuter de mon projet.")}`
         : "#";
@@ -60,13 +67,13 @@ export default function Calendar({ config }) {
 
                 {/* Full-width GHL Calendar Embed */}
                 <div className="bg-[var(--color-bg-surface)] border border-[var(--color-border-default)] rounded-2xl p-2 overflow-visible">
-                    <iframe
-                        src={calendarUrl}
+                    {calendarSrc && <iframe
+                        src={calendarSrc}
                         className="w-full border-none rounded-xl min-h-[1000px] md:min-h-[700px]"
                         scrolling="yes"
                         loading="lazy"
                         title="Réserver un appel"
-                    />
+                    />}
                 </div>
 
                 {/* Info below */}
